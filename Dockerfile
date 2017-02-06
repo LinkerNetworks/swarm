@@ -11,6 +11,7 @@ RUN set -ex \
 	&& apk add --no-cache --virtual .build-deps \
 	git \
 	&& GOOS=$GOOS CGO_ENABLED=0 go install -v -a -tags netgo -installsuffix netgo -ldflags "-w -X github.com/docker/swarm/version.GITCOMMIT `git rev-parse --short HEAD` -X github.com/docker/swarm/version.BUILDTIME \"`date -u`\""  \
+	&& GOOS=$GOOS CGO_ENABLED=0 go build -o swarm \
 	&& apk del .build-deps
 
 ENV SWARM_HOST :2375

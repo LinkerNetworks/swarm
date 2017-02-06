@@ -221,6 +221,8 @@ func (s *Zookeeper) WatchTree(directory string, stopCh <-chan struct{}) (<-chan 
 			select {
 			case e := <-eventCh:
 				if e.Type == zk.EventNodeChildrenChanged {
+					// TODO: here sleep 10ms to avoid get empty value
+					time.Sleep(10 * time.Millisecond)
 					if kv, err := s.List(directory); err == nil {
 						watchCh <- kv
 					}
